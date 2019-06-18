@@ -7,26 +7,19 @@ import Loading from "./Loading";
 import { fetchList, fetchItem } from "../utils/api";
 
 class List extends React.Component {
-  _isMounted = false;
-
   state = {
     items: null,
     error: null
   };
 
   componentDidMount() {
-    this._isMounted = true;
     this.handleFetchList();
   }
 
-  componentWillUnmount() {
-    this._isMounted = false;
-  }
-
   componentDidUpdate(prevProps) {
-    // if (prevProps.type !== this.props.type) {
-    //   // this.handleFetch();
-    // }
+    if (prevProps.type !== this.props.type) {
+      this.handleFetchList();
+    }
   }
 
   handleFetchList = () => {
@@ -34,19 +27,10 @@ class List extends React.Component {
     const newsStore = this.props.News;
     const type = this.props.type;
 
-    listStore
-      .fetchlist(type)
-      .then(() => {
-        const items = listStore.items[type];
-        this.props.News.getItems(items);
-      })
-      .catch(error => {
-        if (this._isMounted) {
-          this.setState({
-            error: `Oops, there seems to be an error loading "${this.props.type}" items`
-          });
-        }
-      });
+    listStore.fetchlist(type).then(() => {
+      const items = listStore.items[type];
+      newsStore.getItems(items);
+    });
   };
 
   render() {
@@ -57,8 +41,6 @@ class List extends React.Component {
     if (this.state.error) return this.state.error;
     if (newsStore.loading) return <Loading />;
 
-    // return "___" + JSON.stringify(listStore.items[type].length > 0);
-    //
     return (
       <ul className="news-list">
         {listStore.items[type].length > 0 &&

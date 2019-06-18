@@ -6,29 +6,26 @@ class News {
   @observable loading = true;
 
   @action.bound getItems(ids) {
-    this.items = {};
-    this.loading = true;
+    // Check which items are missing from the store
+    const missing = ids.filter(
+      id => !Object.keys(this.items).includes(String(id))
+    );
 
-    return fetchItemsFromApi(ids).then(data => {
-      const items = data.reduce(
-        (total, item) => ({ ...total, [item.id]: item }),
-        {}
-      );
-      this.setItems(items);
-    });
-  }
+    console.log(missing);
 
-  @action.bound setItems(newItems) {
-    this.items = { ...this.items, ...newItems };
-    this.loading = false;
-  }
+    if (missing.length === 0) {
+      return Promise.resolve(this.items);
+    } else {
+      return fetchItemsFromApi(missing).then(data => {
+        const newItems = data.reduce(
+          (total, item) => ({ ...total, [item.id]: item }),
+          {}
+        );
 
-  @computed get quickgetitems() {
-    return this.items;
-  }
-
-  @computed get getloading() {
-    return this.loading;
+        this.items = { ...this.items, ...newItems };
+        this.loading = false;
+      });
+    }
   }
 }
 

@@ -11,9 +11,15 @@ class NewsLists {
   };
 
   @action.bound fetchlist(type) {
-    return fetchListApi(type).then(({ data }) => {
-      this.items[type] = data.slice(0, 10);
-    });
+    if (this.items[type].length > 0) {
+      console.log("use old list");
+      return Promise.resolve(this.items[type]);
+    } else {
+      console.log("fetch new list");
+      return fetchListApi(type).then(({ data }) => {
+        this.items[type] = data.slice(0, 10);
+      });
+    }
   }
 }
 

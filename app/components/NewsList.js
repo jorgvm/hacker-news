@@ -21,7 +21,7 @@ class Top extends React.Component {
     }
   }
 
-  handleFetch() {
+  handleFetch = () => {
     this.setState({ items: null, error: null });
 
     fetchList(this.props.type)
@@ -35,7 +35,7 @@ class Top extends React.Component {
           error: `Oops, there seems to be an error loading "${this.props.type}" items`
         })
       );
-  }
+  };
 
   render() {
     if (this.state.error) return this.state.error;

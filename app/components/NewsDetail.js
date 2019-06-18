@@ -14,6 +14,10 @@ class NewsDetail extends React.Component {
   };
 
   componentDidMount() {
+    this.handleFetchItems();
+  }
+
+  handleFetchItems = () => {
     const id = this.props.match.params.id;
 
     fetchItem(id)
@@ -33,9 +37,9 @@ class NewsDetail extends React.Component {
           error: "Oops, there seems to be an error loading the comments" + error
         })
       );
-  }
+  };
 
-  handleFetchComments(ids) {
+  handleFetchComments = ids => {
     // Limit to 5 comments
     fetchComments(ids.slice(0, 5))
       .then(comments => comments.filter(comment => comment.text))
@@ -44,7 +48,7 @@ class NewsDetail extends React.Component {
           comments: comments
         })
       );
-  }
+  };
 
   render() {
     if (this.state.error) return this.state.error;

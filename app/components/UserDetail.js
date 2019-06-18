@@ -14,8 +14,11 @@ class UserDetail extends React.Component {
   };
 
   componentDidMount() {
+    this.handleFetchUser();
+  }
+
+  handleFetchUser = () => {
     const username = this.props.match.params.id;
-    console.log(username);
 
     fetchUser(username)
       .then(({ data, error }) => {
@@ -33,15 +36,15 @@ class UserDetail extends React.Component {
             "Oops, there seems to be an error loading the user info" + error
         })
       );
-  }
+  };
 
-  handleFetchItems(ids) {
+  handleFetchItems = ids => {
     fetchComments(ids.slice(0, this.state.postLimit)).then(posts =>
       this.setState({
         posts: posts
       })
     );
-  }
+  };
 
   render() {
     const { posts, postLimit, error, user } = this.state;

@@ -1,56 +1,77 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { inject, observer } from "mobx-react";
 //
 import NewsItem from "./NewsItem";
 import Loading from "./Loading";
 import { fetchList, fetchItem } from "../utils/api";
 
-class Top extends React.Component {
+class List extends React.Component {
+  _isMounted = false;
+
   state = {
     items: null,
     error: null
   };
 
   componentDidMount() {
-    this.handleFetch();
+    this._isMounted = true;
+    this.handleFetchList();
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.type !== this.props.type) {
-      this.handleFetch();
-    }
+    // if (prevProps.type !== this.props.type) {
+    //   // this.handleFetch();
+    // }
   }
 
-  handleFetch = () => {
-    this.setState({ items: null, error: null });
+  handleFetchList = () => {
+    const listStore = this.props.NewsLists;
+    const newsStore = this.props.News;
+    const type = this.props.type;
 
-    fetchList(this.props.type)
-      .then(({ data }) =>
-        this.setState({
-          items: data
-        })
-      )
-      .catch(error =>
-        this.setState({
-          error: `Oops, there seems to be an error loading "${this.props.type}" items`
-        })
-      );
+    listStore
+      .fetchlist(type)
+      .then(() => {
+        const items = listStore.items[type];
+        this.props.News.getItems(items);
+      })
+      .catch(error => {
+        if (this._isMounted) {
+          this.setState({
+            error: `Oops, there seems to be an error loading "${this.props.type}" items`
+          });
+        }
+      });
   };
 
   render() {
-    if (this.state.error) return this.state.error;
-    if (!this.state.items) return <Loading />;
+    const newsStore = this.props.News;
+    const listStore = this.props.NewsLists;
+    const type = this.props.type;
 
+    if (this.state.error) return this.state.error;
+    if (newsStore.loading) return <Loading />;
+
+    // return "___" + JSON.stringify(listStore.items[type].length > 0);
+    //
     return (
       <ul className="news-list">
-        {this.state.items.map(item => (
-          <li key={item.id}>
-            <NewsItem {...item} />
-          </li>
-        ))}
+        {listStore.items[type].length > 0 &&
+          listStore.items[type].map(id =>
+            !newsStore.items[id] ? null : (
+              <li key={id}>
+                <NewsItem {...newsStore.items[id]} />
+              </li>
+            )
+          )}
       </ul>
     );
   }
 }
 
-export default Top;
+export default inject("News", "NewsLists")(observer(List));

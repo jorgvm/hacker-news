@@ -4,7 +4,7 @@ const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = {
   entry: "./app/index.js",
-  devtool: "source-map",
+  devtool: process.env.NODE_ENV === "production" ? "source-map" : false,
   output: {
     path: path.resolve(__dirname, "dist"),
     filename: "index_bundle.js",
@@ -32,6 +32,8 @@ module.exports = {
     new CopyPlugin([{ from: "_redirects" }, { from: "public/" }])
   ],
   devServer: {
-    historyApiFallback: true
+    historyApiFallback: true,
+    port: 9000,
+    open: true
   }
 };

@@ -2,7 +2,6 @@
 const APIurl = "https://hacker-news.firebaseio.com/v0/";
 
 export function fetchList(type) {
-  const limit = 10;
   const lists = {
     new: "newstories.json",
     top: "topstories.json",
@@ -13,20 +12,21 @@ export function fetchList(type) {
   return fetch(APIurl + lists[type])
     .then(handleErrors)
     .then(res => res.json())
-    .then(ids => {
-      return ids.slice(0, limit).map(id => {
-        return fetchItem(id).then(result => result.data);
-      });
-    })
-    .then(promiseList => Promise.all(promiseList))
     .then(res => ({ data: res }))
     .catch(error => {
       throw new Error(error.statusText);
     });
 }
 
-export function fetchComments(ids) {
-  console.log("ids", ids);
+// .then(ids => {
+//   return ids.slice(0, limit).map(id => {
+//     return fetchItem(id).then(result => result.data);
+//   });
+// })
+// .then(promiseList => Promise.all(promiseList))
+// .then(res => ({ data: res }))
+
+export function fetchItems(ids) {
   const promiseList = ids.map(id => {
     return fetchItem(id).then(result => result.data);
   });
@@ -60,7 +60,6 @@ export function fetchUser(username) {
 
 function handleErrors(response) {
   if (!response.ok) {
-    console.log("error", response.statusText);
     throw new Error(response.statusText);
   }
   return response;

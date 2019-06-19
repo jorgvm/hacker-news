@@ -3,6 +3,8 @@ import { observable, action, computed, decorate } from "mobx";
 import { fetchList as fetchListApi } from "../utils/api";
 
 class NewsLists {
+  @observable loading = false;
+
   @observable items = {
     new: [],
     top: [],
@@ -11,12 +13,16 @@ class NewsLists {
   };
 
   @action.bound fetchlist(type) {
+    this.loading = true;
+
     if (this.items[type].length > 0) {
-      console.log("use old list");
+      // Use existing list
+      this.loading = false;
       return Promise.resolve(this.items[type]);
     } else {
-      console.log("fetch new list");
+      // Fetch new list
       return fetchListApi(type).then(({ data }) => {
+        this.loading = false;
         this.items[type] = data.slice(0, 10);
       });
     }

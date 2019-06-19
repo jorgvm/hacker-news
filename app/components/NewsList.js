@@ -39,7 +39,7 @@ class List extends React.Component {
     const type = this.props.type;
 
     if (this.state.error) return this.state.error;
-    if (newsStore.loading) return <Loading />;
+    if (listStore.loading || newsStore.loading) return <Loading />;
 
     return (
       <ul className="news-list">

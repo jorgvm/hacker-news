@@ -3,19 +3,22 @@ import { fetchItems as fetchItemsFromApi } from "../utils/api";
 
 class News {
   @observable items = {};
-  @observable loading = true;
+  @observable loading = false;
 
   @action.bound getItems(ids) {
+    this.loading = true;
+
     // Check which items are missing from the store
     const missing = ids.filter(
       id => !Object.keys(this.items).includes(String(id))
     );
 
-    console.log(missing);
-
     if (missing.length === 0) {
+      // Use existing items
+      this.loading = false;
       return Promise.resolve(this.items);
     } else {
+      // Fetch new items
       return fetchItemsFromApi(missing).then(data => {
         const newItems = data.reduce(
           (total, item) => ({ ...total, [item.id]: item }),

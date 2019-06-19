@@ -18,14 +18,6 @@ export function fetchList(type) {
     });
 }
 
-// .then(ids => {
-//   return ids.slice(0, limit).map(id => {
-//     return fetchItem(id).then(result => result.data);
-//   });
-// })
-// .then(promiseList => Promise.all(promiseList))
-// .then(res => ({ data: res }))
-
 export function fetchItems(ids) {
   const promiseList = ids.map(id => {
     return fetchItem(id).then(result => result.data);
@@ -41,6 +33,7 @@ export function fetchItem(id) {
     .then(res => {
       if (!res || !res.id) {
         throw new Error("item not found");
+        return null;
       }
       return { data: res };
     });

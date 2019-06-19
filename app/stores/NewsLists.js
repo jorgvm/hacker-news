@@ -16,14 +16,15 @@ class NewsLists {
     ask: []
   };
 
-  @action.bound fetchlist(type) {
-    this.loading = true;
-
-    if (this.items[type].length > 0) {
+  @action.bound fetchlist(type, forceUpdate = false) {
+    if (!forceUpdate && this.items[type].length > 0) {
       // Use existing list
       this.loading = false;
       return Promise.resolve(this.items[type]);
     } else {
+      // Loading
+      this.loading = true;
+
       // Fetch new list
       return fetchListApi(type).then(({ data }) => {
         // Set items

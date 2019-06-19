@@ -124,6 +124,17 @@ nav {
   padding: 10px;
 }
 
+.update {
+  margin: 0 auto;
+  display: block;
+  font-style: italic;
+  text-decoration: underline;
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+
 //detail
 .item-detail {
   padding: 10px;

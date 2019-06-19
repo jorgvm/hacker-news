@@ -17,29 +17,37 @@ class List extends React.Component {
     }
   }
 
-  handleFetchList = () => {
+  handleFetchList = forceUpdate => {
     const { newsStore, newsListsStore } = this.props.rootstore;
     const type = this.props.type;
-    newsListsStore.fetchlist(type);
+    newsListsStore.fetchlist(type, forceUpdate);
   };
 
   render() {
     const { newsStore, newsListsStore } = this.props.rootstore;
     const type = this.props.type;
 
-    if (!newsListsStore || newsListsStore.loading || newsStore.loading)
-      return <Loading />;
+    if (!newsListsStore || newsStore.loading) return <Loading />;
 
     return (
-      <ul className="news-list">
-        {newsListsStore.items[type].map(id =>
-          !newsStore.items[id] ? null : (
-            <li key={id}>
-              <NewsItem {...newsStore.items[id]} />
-            </li>
-          )
-        )}
-      </ul>
+      <>
+        <button
+          className="update"
+          onClick={this.handleFetchList.bind(null, true)}
+        >
+          {newsListsStore.loading ? "loading..." : "update list"}
+        </button>
+
+        <ul className="news-list">
+          {newsListsStore.items[type].map(id =>
+            !newsStore.items[id] ? null : (
+              <li key={id}>
+                <NewsItem {...newsStore.items[id]} />
+              </li>
+            )
+          )}
+        </ul>
+      </>
     );
   }
 }

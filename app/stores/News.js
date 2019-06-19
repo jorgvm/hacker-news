@@ -3,7 +3,7 @@ import { fetchItems as fetchItemsFromApi } from "../utils/api";
 
 class News {
   @observable items = {};
-  @observable loading = false;
+  @observable loading = true;
 
   @action.bound getItems(ids) {
     this.loading = true;

@@ -8,8 +8,7 @@ import { fetchList, fetchItem } from "../utils/api";
 
 class List extends React.Component {
   state = {
-    items: null,
-    error: null
+    items: null
   };
 
   componentDidMount() {
@@ -23,28 +22,27 @@ class List extends React.Component {
   }
 
   handleFetchList = () => {
-    const listStore = this.props.NewsLists;
-    const newsStore = this.props.News;
+    const { newsStore, newsListsStore } = this.props.rootstore;
+
     const type = this.props.type;
 
-    listStore.fetchlist(type).then(() => {
-      const items = listStore.items[type];
-      newsStore.getItems(items);
+    newsListsStore.fetchlist(type).then(() => {
+      // const items = newsListsStore.items[type];
+      // newsStore.getItems(items);
     });
   };
 
   render() {
-    const newsStore = this.props.News;
-    const listStore = this.props.NewsLists;
+    const { newsStore, newsListsStore } = this.props.rootstore;
     const type = this.props.type;
 
-    if (this.state.error) return this.state.error;
-    if (listStore.loading || newsStore.loading) return <Loading />;
+    if (!newsListsStore || newsListsStore.loading || newsStore.loading)
+      return <Loading />;
 
     return (
       <ul className="news-list">
-        {listStore.items[type].length > 0 &&
-          listStore.items[type].map(id =>
+        {newsListsStore.items[type].length > 0 &&
+          newsListsStore.items[type].map(id =>
             !newsStore.items[id] ? null : (
               <li key={id}>
                 <NewsItem {...newsStore.items[id]} />
@@ -56,4 +54,4 @@ class List extends React.Component {
   }
 }
 
-export default inject("News", "NewsLists")(observer(List));
+export default inject("rootstore")(observer(List));

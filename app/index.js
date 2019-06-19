@@ -8,8 +8,9 @@ import NewsList from "./components/NewsList";
 // import UserDetail from "./components/UserDetail";
 import Nav from "./components/Nav";
 import About from "./components/About";
-import NewsStore from "./stores/News";
-import NewsLists from "./stores/NewsLists";
+import RootStore from "./stores/RootStore";
+// import NewsStore from "./stores/News";
+// import NewsLists from "./stores/NewsLists";
 import "./reset.scss";
 import "./index.scss";
 
@@ -18,7 +19,7 @@ class App extends React.Component {
     // <Route path="/item/:id" component={NewsDetail} />
     // <Route path="/user/:id" component={UserDetail} />
     return (
-      <Provider NewsLists={NewsLists} News={NewsStore}>
+      <Provider rootstore={RootStore}>
         <BrowserRouter>
           <Nav />
 

@@ -29,5 +29,5 @@ class NewsLists {
   }
 }
 
-const store = new NewsLists();
-export default store;
+// const store = new NewsLists();
+export default NewsLists;

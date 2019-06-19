@@ -32,5 +32,5 @@ class News {
   }
 }
 
-const store = new News();
-export default store;
+// const store = new News();
+export default News;

@@ -3,6 +3,10 @@ import { observable, action, computed, decorate } from "mobx";
 import { fetchList as fetchListApi } from "../utils/api";
 
 class NewsLists {
+  constructor(rootStore) {
+    this.rootStore = rootStore;
+  }
+
   @observable loading = false;
 
   @observable items = {
@@ -22,8 +26,13 @@ class NewsLists {
     } else {
       // Fetch new list
       return fetchListApi(type).then(({ data }) => {
+        // Set items
+        const limitedItems = data.slice(0, 10);
+        this.items[type] = limitedItems;
         this.loading = false;
-        this.items[type] = data.slice(0, 10);
+
+        // Check if items are already loaded in news store
+        this.rootStore.newsStore.getItems(limitedItems);
       });
     }
   }

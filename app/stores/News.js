@@ -1,4 +1,4 @@
-import { observable, action, computed, decorate } from "mobx";
+import { when, observable, action, computed, decorate, autorun } from "mobx";
 import { fetchItems as fetchItemsFromApi } from "../utils/api";
 
 class News {
@@ -14,11 +14,11 @@ class News {
     );
 
     if (missing.length === 0) {
-      // Use existing items
+      // All items are already present! Use existing items
       this.loading = false;
       return Promise.resolve(this.items);
     } else {
-      // Fetch new items
+      // Fetch new items where needed
       return fetchItemsFromApi(missing).then(data => {
         const newItems = data.reduce(
           (total, item) => ({ ...total, [item.id]: item }),
@@ -32,5 +32,4 @@ class News {
   }
 }
 
-// const store = new News();
 export default News;

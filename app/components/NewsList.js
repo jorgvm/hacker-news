@@ -7,10 +7,6 @@ import Loading from "./Loading";
 import { fetchList, fetchItem } from "../utils/api";
 
 class List extends React.Component {
-  state = {
-    items: null
-  };
-
   componentDidMount() {
     this.handleFetchList();
   }
@@ -23,13 +19,8 @@ class List extends React.Component {
 
   handleFetchList = () => {
     const { newsStore, newsListsStore } = this.props.rootstore;
-
     const type = this.props.type;
-
-    newsListsStore.fetchlist(type).then(() => {
-      // const items = newsListsStore.items[type];
-      // newsStore.getItems(items);
-    });
+    newsListsStore.fetchlist(type);
   };
 
   render() {
@@ -41,14 +32,13 @@ class List extends React.Component {
 
     return (
       <ul className="news-list">
-        {newsListsStore.items[type].length > 0 &&
-          newsListsStore.items[type].map(id =>
-            !newsStore.items[id] ? null : (
-              <li key={id}>
-                <NewsItem {...newsStore.items[id]} />
-              </li>
-            )
-          )}
+        {newsListsStore.items[type].map(id =>
+          !newsStore.items[id] ? null : (
+            <li key={id}>
+              <NewsItem {...newsStore.items[id]} />
+            </li>
+          )
+        )}
       </ul>
     );
   }

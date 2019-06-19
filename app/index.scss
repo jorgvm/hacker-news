@@ -1,6 +1,6 @@
 /*
-  Sure, you could import separate files, or use styled-components
-  But for this small projects this wee little file is working fine
+  Separate CSS files, or styled-components?
+  But for this small projects this little file is working just fine
 */
 @import url("https://fonts.googleapis.com/css?family=Dosis|Open+Sans&display=swap");
 
@@ -53,14 +53,21 @@ a {
   padding: 10px;
 }
 
-// nav
-nav {
-  display: flex;
-  justify-content: center;
+// header
+.header {
   padding: 20px;
   background: #5db77d;
   color: white;
   margin-bottom: 20px;
+  text-align: center;
+}
+
+// nav
+nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
   font-size: 1.2em;
 
   a {

@@ -3,7 +3,8 @@ import React from "react";
 function About() {
   return (
     <div className="about">
-      This app is just too have some fun with React and the Hacker News API
+      This app is built just too have some fun with React, the Hacker News API,
+      MobX and decorators!
       <br />
       <br />- Jorg
     </div>

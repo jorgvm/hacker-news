@@ -6,11 +6,19 @@ import NewsItem from "./NewsItem";
 import Loading from "./Loading";
 import Comment from "./Comment";
 
+@inject("rootstore")
+@observer
 class NewsDetail extends React.Component {
   state = {};
 
   componentDidMount() {
     this.handleFetchItems();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.match.params.id !== this.props.match.params.id) {
+      this.handleFetchItems();
+    }
   }
 
   handleFetchItems = () => {
@@ -56,4 +64,4 @@ class NewsDetail extends React.Component {
   }
 }
 
-export default inject("rootstore")(observer(NewsDetail));
+export default NewsDetail;

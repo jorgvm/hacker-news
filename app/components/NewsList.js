@@ -5,6 +5,8 @@ import { inject, observer } from "mobx-react";
 import NewsItem from "./NewsItem";
 import Loading from "./Loading";
 
+@inject("rootstore")
+@observer
 class List extends React.Component {
   componentDidMount() {
     this.handleFetchList();
@@ -51,4 +53,4 @@ class List extends React.Component {
   }
 }
 
-export default inject("rootstore")(observer(List));
+export default List;

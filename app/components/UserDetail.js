@@ -5,6 +5,8 @@ import { inject, observer } from "mobx-react";
 import NewsItem from "./NewsItem";
 import Loading from "./Loading";
 
+@inject("rootstore")
+@observer
 class UserDetail extends React.Component {
   componentDidMount() {
     this.handleFetchUser();
@@ -53,4 +55,4 @@ class UserDetail extends React.Component {
   }
 }
 
-export default inject("rootstore")(observer(UserDetail));
+export default UserDetail;

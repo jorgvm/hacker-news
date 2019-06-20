@@ -4,7 +4,6 @@ import { inject, observer } from "mobx-react";
 //
 import NewsItem from "./NewsItem";
 import Loading from "./Loading";
-import { fetchList, fetchItem } from "../utils/api";
 
 class List extends React.Component {
   componentDidMount() {
@@ -23,18 +22,20 @@ class List extends React.Component {
     newsListsStore.fetchlist(type, forceUpdate);
   };
 
+  manual = () => {
+    const { newsStore, newsListsStore } = this.props.rootstore;
+    // newsStore.items[20230133].title = "bla";
+  };
+
   render() {
     const { newsStore, newsListsStore } = this.props.rootstore;
     const type = this.props.type;
 
     if (!newsListsStore || newsStore.loading) return <Loading />;
-
+    // onClick={this.handleFetchList.bind(null, true)}
     return (
       <>
-        <button
-          className="update"
-          onClick={this.handleFetchList.bind(null, true)}
-        >
+        <button className="update" onClick={this.manual}>
           {newsListsStore.loading ? "loading..." : "update list"}
         </button>
 

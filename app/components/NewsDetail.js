@@ -1,62 +1,38 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { inject, observer } from "mobx-react";
 //
 import NewsItem from "./NewsItem";
 import Loading from "./Loading";
 import Comment from "./Comment";
-import { fetchItem, fetchComments } from "../utils/api";
 
 class NewsDetail extends React.Component {
-  state = {
-    item: null,
-    error: null,
-    comments: null
-  };
+  state = {};
 
   componentDidMount() {
     this.handleFetchItems();
   }
 
   handleFetchItems = () => {
-    const id = this.props.match.params.id;
+    const { newsStore } = this.props.rootstore;
+    const itemId = this.props.match.params.id;
 
-    fetchItem(id)
-      .then(({ data, error }) => {
-        this.setState({
-          item: data
-        });
-
-        if (data.kids) {
-          this.handleFetchComments(data.kids);
-        } else {
-          this.setState({ comments: 0 });
-        }
-      })
-      .catch(error =>
-        this.setState({
-          error: "Oops, there seems to be an error loading the comments" + error
-        })
-      );
-  };
-
-  handleFetchComments = ids => {
-    // Limit to 5 comments
-    fetchComments(ids.slice(0, 5))
-      .then(comments => comments.filter(comment => comment.text))
-      .then(comments =>
-        this.setState({
-          comments: comments
-        })
-      );
+    newsStore.getItems({
+      ids: [itemId],
+      fetchChildren: true
+    });
   };
 
   render() {
-    if (this.state.error) return this.state.error;
-    if (!this.state.item) return <Loading />;
+    const { newsStore } = this.props.rootstore;
+    const itemId = this.props.match.params.id;
+    const newsItem = newsStore.items[itemId];
+
+    if (newsStore.loading) return <Loading />;
 
     return (
       <div className="item-detail">
-        <NewsItem {...this.state.item}>
+        <NewsItem {...newsItem}>
           {props => (
             <div
               className="content"
@@ -65,13 +41,15 @@ class NewsDetail extends React.Component {
           )}
         </NewsItem>
 
-        {this.state.comments === 0 && "(No comments)"}
-
-        {!!this.state.comments && (
+        {newsItem.kids && (
           <div className="comments">
-            {this.state.comments.map(comment => (
-              <Comment key={comment.id} {...comment} />
-            ))}
+            {newsItem.kids.map(commentId => {
+              return newsStore.items[commentId] ? (
+                <Comment key={commentId} {...newsStore.items[commentId]} />
+              ) : (
+                "kan niet vinden"
+              );
+            })}
           </div>
         )}
       </div>
@@ -79,4 +57,16 @@ class NewsDetail extends React.Component {
   }
 }
 
-export default NewsDetail;
+// {newsItem.kids && (
+//   <div className="comments">
+//     {newsItem.kids.map(comment =>
+//       newsStore.items[comment.id] ? (
+//         <Comment key={comment.id} {...newsStore.items[comment.id]} />
+//       ) : (
+//         "kan niet vinden"
+//       )
+//     )}
+//   </div>
+// )}
+
+export default inject("rootstore")(observer(NewsDetail));

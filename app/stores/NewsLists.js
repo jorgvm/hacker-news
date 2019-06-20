@@ -33,7 +33,7 @@ class NewsLists {
         this.loading = false;
 
         // Check if items are already loaded in news store
-        this.rootStore.newsStore.getItems(limitedItems);
+        this.rootStore.newsStore.getItems({ ids: limitedItems });
       });
     }
   }

@@ -1,4 +1,4 @@
-import { observable, action, computed, decorate } from "mobx";
+import { runInAction, observable, action } from "mobx";
 //
 import { fetchList as fetchListApi } from "../utils/api";
 
@@ -29,8 +29,11 @@ class NewsLists {
       return fetchListApi(type).then(({ data }) => {
         // Set items
         const limitedItems = data.slice(0, 10);
-        this.items[type] = limitedItems;
-        this.loading = false;
+
+        runInAction(() => {
+          this.items[type] = limitedItems;
+          this.loading = false;
+        });
 
         // Check if items are already loaded in news store
         this.rootStore.newsStore.getItems({ ids: limitedItems });

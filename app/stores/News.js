@@ -1,7 +1,5 @@
-import { configure, observable, action } from "mobx";
+import { runInAction, observable, action } from "mobx";
 import { fetchItems as fetchItemsFromApi } from "../utils/api";
-
-// configure({ enforceActions: "observed" }); // strict mode
 
 class News {
   @observable items = {};
@@ -20,8 +18,8 @@ class News {
       this.loading = false;
       return Promise.resolve(this.items);
     } else {
-      // Fetch all ids
-      // Or without children: fetch missing items from api
+      // With children: fetch all ids
+      // Without children: only fetch missing items
       return this.fetchItems(fetchChildren ? ids : missing).then(items => {
         if (fetchChildren) {
           Object.values(items).forEach(item => {
@@ -37,13 +35,16 @@ class News {
     return fetchItemsFromApi(ids).then(data => {
       // Convert array to indexed object
       const newItems = data.reduce(
-        (total, item) => ({ ...total, [item.id]: item }),
+        (total, item) => (item.deleted ? total : { ...total, [item.id]: item }),
         {}
       );
 
       // Add to store
-      this.items = { ...this.items, ...newItems };
-      this.loading = false;
+      runInAction(() => {
+        this.items = { ...this.items, ...newItems };
+        this.loading = false;
+      });
+
       return newItems;
     });
   }

@@ -22,20 +22,18 @@ class List extends React.Component {
     newsListsStore.fetchlist(type, forceUpdate);
   };
 
-  manual = () => {
-    const { newsStore, newsListsStore } = this.props.rootstore;
-    // newsStore.items[20230133].title = "bla";
-  };
-
   render() {
     const { newsStore, newsListsStore } = this.props.rootstore;
     const type = this.props.type;
 
-    if (!newsListsStore || newsStore.loading) return <Loading />;
-    // onClick={this.handleFetchList.bind(null, true)}
+    if (newsStore.loading || newsListsStore.loading) return <Loading />;
+
     return (
       <>
-        <button className="update" onClick={this.manual}>
+        <button
+          className="update"
+          onClick={this.handleFetchList.bind(null, true)}
+        >
           {newsListsStore.loading ? "loading..." : "update list"}
         </button>
 

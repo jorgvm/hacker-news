@@ -46,9 +46,7 @@ class NewsDetail extends React.Component {
             {newsItem.kids.map(commentId => {
               return newsStore.items[commentId] ? (
                 <Comment key={commentId} {...newsStore.items[commentId]} />
-              ) : (
-                "kan niet vinden"
-              );
+              ) : null;
             })}
           </div>
         )}
@@ -56,17 +54,5 @@ class NewsDetail extends React.Component {
     );
   }
 }
-
-// {newsItem.kids && (
-//   <div className="comments">
-//     {newsItem.kids.map(comment =>
-//       newsStore.items[comment.id] ? (
-//         <Comment key={comment.id} {...newsStore.items[comment.id]} />
-//       ) : (
-//         "kan niet vinden"
-//       )
-//     )}
-//   </div>
-// )}
 
 export default inject("rootstore")(observer(NewsDetail));

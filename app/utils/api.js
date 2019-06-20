@@ -32,7 +32,7 @@ export function fetchItem(id) {
     .then(res => res.json())
     .then(res => {
       if (!res || !res.id) {
-        throw new Error("item not found");
+        throw new Error("Problems with item");
         return null;
       }
       return { data: res };

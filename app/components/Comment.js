@@ -3,8 +3,9 @@ import moment from "moment";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
-function Comment({ by, text, id, time }) {
+function Comment({ by, deleted, text, id, time }) {
   if (!by || !text) return null;
+
   return (
     <div className="comment">
       <div className="meta">

@@ -4,7 +4,8 @@ const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = {
   entry: "./app/index.js",
-  devtool: process.env.NODE_ENV === "production" ? "source-map" : false,
+  devtool:
+    process.env.NODE_ENV === "production" ? "source-map" : "eval-source-map",
   output: {
     path: path.resolve(__dirname, "dist"),
     filename: "index_bundle.js",

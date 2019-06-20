@@ -17,6 +17,7 @@ class NewsDetail extends React.Component {
     const { newsStore } = this.props.rootstore;
     const itemId = this.props.match.params.id;
 
+    // Get item from store
     newsStore.getItems({
       ids: [itemId],
       fetchChildren: true
@@ -28,7 +29,7 @@ class NewsDetail extends React.Component {
     const itemId = this.props.match.params.id;
     const newsItem = newsStore.items[itemId];
 
-    if (newsStore.loading) return <Loading />;
+    if (!newsItem || newsStore.loading) return <Loading />;
 
     return (
       <div className="item-detail">

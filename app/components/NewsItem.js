@@ -2,7 +2,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 import moment from "moment";
 import PropTypes from "prop-types";
-// import { FaExternalLinkAlt } from "react-icons/fa";
 import _ from "underscore";
 
 function NewsItem(props) {

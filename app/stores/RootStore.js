@@ -2,13 +2,16 @@ import { configure } from "mobx";
 //
 import News from "./News";
 import NewsLists from "./NewsLists";
+import Users from "./Users";
 
-configure({ enforceActions: "always" }); // strict mode
+// strict mode
+configure({ enforceActions: "always" });
 
 class RootStore {
   constructor() {
     this.newsStore = new News(this);
     this.newsListsStore = new NewsLists(this);
+    this.userStore = new Users(this);
   }
 }
 

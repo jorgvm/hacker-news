@@ -7,12 +7,28 @@ var he = require("he");
 import { stripHtmlTags } from "../utils/helpers";
 
 function NewsItem(props) {
-  const { children, by, id, title, time, url, text, kids, parent } = props;
+  const {
+    children,
+    by,
+    id,
+    title,
+    time,
+    url,
+    text,
+    kids,
+    error,
+    parent
+  } = props;
   const titleLimit = 60;
+
+  // Error
+  if (error) {
+    return "Error, item not found";
+  }
 
   // Require either a text or a title
   if (!text && !title) {
-    return null;
+    return <div className="news-item"></div>;
   }
 
   // Title contains hex, decode

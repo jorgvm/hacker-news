@@ -31,11 +31,16 @@ export function fetchItem(id) {
     .then(handleErrors)
     .then(res => res.json())
     .then(res => {
-      if (!res || !res.id) {
-        throw new Error("Problems with item");
-        return null;
+      if (res === null) {
+        return { data: { id, error: true } };
+      } else if (!res || !res.id) {
+        return Promise.reject("Item data seems corrupt");
+      } else {
+        return { data: res };
       }
-      return { data: res };
+    })
+    .catch(error => {
+      throw new Error(error);
     });
 }
 

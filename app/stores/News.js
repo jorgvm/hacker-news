@@ -6,8 +6,9 @@ class News {
   @observable loading = false;
 
   @action.bound getItems({ ids = [], fetchChildren = false } = {}) {
-    // Loading. Check which items are missing from the store
     this.loading = true;
+
+    // Check which items are missing from the store
     const missing = ids.filter(
       id => !Object.keys(this.items).includes(String(id))
     );
@@ -18,8 +19,8 @@ class News {
       this.loading = false;
       return Promise.resolve(this.items);
     } else {
-      // With children: fetch all ids
-      // Without children: only fetch missing items
+      /* With children:    fetch all ids
+         Without children: only fetch missing items*/
       return this.fetchItems(fetchChildren ? ids : missing).then(items => {
         if (fetchChildren) {
           Object.values(items).forEach(item => {
@@ -32,21 +33,30 @@ class News {
   }
 
   @action.bound fetchItems(ids) {
-    return fetchItemsFromApi(ids).then(data => {
-      // Convert array to indexed object
-      const newItems = data.reduce(
-        (total, item) => (item.deleted ? total : { ...total, [item.id]: item }),
-        {}
-      );
+    return fetchItemsFromApi(ids)
+      .then(data => {
+        // Convert array to indexed object
+        const newItems = data.reduce(
+          (total, item) =>
+            item.deleted ? total : { ...total, [item.id]: item },
+          {}
+        );
 
-      // Add to store
-      runInAction(() => {
-        this.items = { ...this.items, ...newItems };
-        this.loading = false;
+        // Add to store
+        runInAction(() => {
+          this.items = { ...this.items, ...newItems };
+          this.loading = false;
+        });
+
+        return newItems;
+      })
+      .catch(error => {
+        runInAction(() => {
+          this.loading = false;
+        });
+
+        console.error("Error fetching an item", error);
       });
-
-      return newItems;
-    });
   }
 }
 

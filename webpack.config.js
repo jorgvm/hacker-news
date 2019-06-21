@@ -30,7 +30,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: "app/index.html"
     }),
-    new CopyPlugin([{ from: "_redirects" }, { from: "public/" }])
+    new CopyPlugin([{ from: "public/" }])
   ],
   devServer: {
     historyApiFallback: true,

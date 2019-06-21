@@ -1,3 +1,22 @@
-This app is just too have some fun with React and the Hacker News API
+# Hacker News Feed
 
-- Jorg
+I built this app just too have some fun with React! Using:
+
+- React, MobX
+- Decorators proposal
+- Class properties proposal
+- Optional chaining proposal
+- and the Hacker News API
+
+Cheers,
+Jorg
+
+## Links
+
+Demo on Netlify: https://priceless-volhard-76e2b7.netlify.com
+Git: https://github.com/jorgvm/hacker-news
+
+## Script
+
+Build: `npm run build`
+Dev: `npm run start`

@@ -1,14 +1,14 @@
 {
   "name": "hackernews",
   "version": "1.0.0",
-  "description": "hacker news test",
+  "description": "Hacker News feed",
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server",
     "build": "NODE_ENV='production' webpack",
     "analyze": "source-map-explorer 'dist/*.js'"
   },
-  "author": "jorg",
+  "author": "Jorg",
   "license": "ISC",
   "babel": {
     "presets": [
@@ -33,9 +33,19 @@
     ]
   },
   "dependencies": {
+    "@babel/core": "^7.3.4",
+    "@babel/plugin-proposal-class-properties": "^7.3.4",
+    "@babel/plugin-proposal-decorators": "^7.4.4",
     "@babel/plugin-proposal-optional-chaining": "^7.2.0",
+    "@babel/preset-env": "^7.3.4",
+    "@babel/preset-react": "^7.0.0",
+    "babel-loader": "^8.0.5",
+    "babel-plugin-syntax-dynamic-import": "^6.18.0",
+    "copy-webpack-plugin": "^5.0.1",
+    "css-loader": "^2.1.1",
     "dompurify": "^1.0.11",
     "he": "^1.2.0",
+    "html-webpack-plugin": "^3.2.0",
     "mobx": "^5.10.1",
     "mobx-react": "^6.0.4",
     "moment": "^2.24.0",
@@ -47,24 +57,14 @@
     "react-icons": "^3.7.0",
     "react-router": "^5.0.1",
     "react-router-dom": "^5.0.1",
+    "react-svg-loader": "^3.0.3",
     "sass-loader": "^7.1.0",
     "source-map-explorer": "^2.0.0",
+    "style-loader": "^0.23.1",
     "styled-components": "^4.3.1",
     "underscore": "^1.9.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.3.4",
-    "@babel/plugin-proposal-class-properties": "^7.3.4",
-    "@babel/plugin-proposal-decorators": "^7.4.4",
-    "@babel/preset-env": "^7.3.4",
-    "@babel/preset-react": "^7.0.0",
-    "babel-loader": "^8.0.5",
-    "babel-plugin-syntax-dynamic-import": "^6.18.0",
-    "copy-webpack-plugin": "^5.0.1",
-    "css-loader": "^2.1.1",
-    "html-webpack-plugin": "^3.2.0",
-    "react-svg-loader": "^3.0.3",
-    "style-loader": "^0.23.1",
     "webpack": "^4.29.6",
     "webpack-cli": "^3.2.3",
     "webpack-dev-server": "^3.2.1"

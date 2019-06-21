@@ -3,7 +3,7 @@ import React from "react";
 function About() {
   return (
     <div className="about">
-      <p>This app is built just too have some fun with</p>
+      <p>I built this app just too have some fun with React! Using:</p>
 
       <ul className="list">
         <li>React</li>

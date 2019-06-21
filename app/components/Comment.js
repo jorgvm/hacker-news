@@ -12,7 +12,7 @@ function Comment({ by, deleted, text, id, time }) {
       <div className="meta">
         by <Link to={`/user/${by}`}>{by}</Link>, {moment(time * 1000).fromNow()}
       </div>
-      <p
+      <div
         className="text"
         dangerouslySetInnerHTML={{ __html: dompurify.sanitize(text) }}
       />

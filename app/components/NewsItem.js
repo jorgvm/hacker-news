@@ -8,18 +8,24 @@ import { stripHtmlTags } from "../utils/helpers";
 
 function NewsItem(props) {
   const { children, by, id, title, time, url, text, kids, parent } = props;
-
-  if (!text && !url) return null;
-
   const titleLimit = 60;
-  const decoded = he.decode(text);
+
+  // Require either a text or a title
+  if (!text && !title) {
+    return null;
+  }
+
+  // Title contains hex, decode
+  const decoded = text && he.decode(text);
+
+  // Title shouldn't contain HTML
   const textSanitized = stripHtmlTags(decoded);
 
   return (
     <div className="news-item">
       <div className="title">
         {title && <Link to={`/item/${id}`}>{title}</Link>}
-        {!title && parent && (
+        {!title && (
           <Link to={`/item/${parent}`}>
             (comment) {textSanitized.slice(0, titleLimit)}
             {textSanitized.length > titleLimit ? "..." : ""}

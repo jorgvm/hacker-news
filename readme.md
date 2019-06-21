@@ -1,6 +1,6 @@
 # Hacker News Feed
 
-I built this app just too have some fun with React! Using:
+I built this app just to have some fun with React! Using:
 
 - React, MobX
 - Decorators proposal

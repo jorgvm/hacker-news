@@ -61,6 +61,7 @@ ul.list {
   margin: 0 auto;
   max-width: 600px;
   padding: 10px;
+  overflow-wrap: break-word;
 }
 
 // header
@@ -177,4 +178,13 @@ nav {
 // user
 .user {
   margin-bottom: 2em;
+}
+
+// About
+.about a {
+  text-decoration: underline;
+
+  &:hover {
+    text-decoration: none;
+  }
 }

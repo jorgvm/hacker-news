@@ -49,7 +49,7 @@ class List extends React.Component {
           {newsListsStore.items[type].map(id =>
             !newsStore.items[id] ? null : (
               <li key={id}>
-                <NewsItem {...newsStore.items[id]} />
+                <NewsItem {...newsStore.items[id]} error={null} />
               </li>
             )
           )}

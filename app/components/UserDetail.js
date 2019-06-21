@@ -27,7 +27,7 @@ class UserDetail extends React.Component {
     const user = userStore.users[username];
 
     // Username not found
-    if (user && user.error) return "Sorry, no user found with this id";
+    if (user?.error) return "Sorry, no user found with this id";
 
     // Loading
     if (!user || userStore.loading) return <Loading />;
@@ -46,13 +46,11 @@ class UserDetail extends React.Component {
         <div className="user-posts">
           <h2>Last posts by {user.id}</h2>
           {newsStore.loading && <Loading />}
-          {user.submitted &&
-            !newsStore.loading &&
-            user.submitted.map(id =>
-              !newsStore.items[id] ? null : (
-                <NewsItem key={id} {...newsStore.items[id]} />
-              )
-            )}
+          {user.submitted?.map(id =>
+            !newsStore.items[id] ? null : (
+              <NewsItem key={id} {...newsStore.items[id]} />
+            )
+          )}
         </div>
       </>
     );

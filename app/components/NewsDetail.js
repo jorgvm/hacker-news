@@ -53,15 +53,15 @@ class NewsDetail extends React.Component {
           )}
         </NewsItem>
 
-        {newsItem.kids && (
+        {
           <div className="comments">
-            {newsItem.kids.map(commentId => {
+            {newsItem.kids?.map(commentId => {
               return newsStore.items[commentId] ? (
                 <Comment key={commentId} {...newsStore.items[commentId]} />
               ) : null;
             })}
           </div>
-        )}
+        }
       </div>
     );
   }

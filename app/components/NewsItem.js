@@ -23,7 +23,7 @@ function NewsItem(props) {
 
   // Error
   if (error) {
-    return "Error, item not found";
+    return "Sorry, item not found";
   }
 
   // Require either a text or a title
@@ -64,7 +64,7 @@ function NewsItem(props) {
           {
             <Link to={`/item/${id}`}>
               {kids ? kids.length : 0}{" "}
-              {kids && kids.length === 1 ? "comment" : "comments"}
+              {kids?.length === 1 ? "comment" : "comments"}
             </Link>
           }
         </div>

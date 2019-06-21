@@ -27,15 +27,16 @@ class Users {
     // Fetch user
     return fetchUserApi(username).then(({ data }) => {
       // Set items
-      const limitedComments = !!data.submitted && data.submitted.slice(0, 10);
+      const limitedComments = data?.submitted?.slice(0, 10);
 
       runInAction(() => {
         this.users[username] = data;
         this.loading = false;
 
         // Check if comments have to be fetched
-        limitedComments &&
+        if (limitedComments) {
           this.rootStore.newsStore.getItems({ ids: limitedComments });
+        }
       });
     });
   }

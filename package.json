@@ -28,10 +28,12 @@
           "loose": true
         }
       ],
+      "@babel/plugin-proposal-optional-chaining",
       "syntax-dynamic-import"
     ]
   },
   "dependencies": {
+    "@babel/plugin-proposal-optional-chaining": "^7.2.0",
     "dompurify": "^1.0.11",
     "he": "^1.2.0",
     "mobx": "^5.10.1",

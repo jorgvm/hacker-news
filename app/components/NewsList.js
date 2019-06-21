@@ -21,24 +21,30 @@ class List extends React.Component {
   handleFetchList = forceUpdate => {
     const { newsStore, newsListsStore } = this.props.rootstore;
     const type = this.props.type;
-    newsListsStore.fetchlist(type, forceUpdate);
+    newsListsStore.getList(type, forceUpdate);
   };
 
   render() {
     const { newsStore, newsListsStore } = this.props.rootstore;
     const type = this.props.type;
 
-    if (newsStore.loading || newsListsStore.loading) return <Loading />;
-
-    return (
-      <>
+    const UpdateButton = ({ text = "update" }) => {
+      return (
         <button
           className="update"
           onClick={this.handleFetchList.bind(null, true)}
         >
-          {newsListsStore.loading ? "loading..." : "update list"}
+          {newsListsStore.loading ? "loading..." : text}
         </button>
+      );
+    };
 
+    if (newsListsStore.error) return <UpdateButton text={"Error, try again"} />;
+    if (newsStore.loading || newsListsStore.loading) return <Loading />;
+
+    return (
+      <>
+        <UpdateButton />
         <ul className="news-list">
           {newsListsStore.items[type].map(id =>
             !newsStore.items[id] ? null : (

@@ -14,7 +14,7 @@ export function fetchList(type) {
     .then(res => res.json())
     .then(res => ({ data: res }))
     .catch(error => {
-      throw new Error(error.statusText);
+      throw new Error(error);
     });
 }
 
@@ -53,7 +53,7 @@ export function fetchUser(username) {
 
 function handleErrors(response) {
   if (!response.ok) {
-    throw new Error(response.statusText);
+    return Promise.reject(response.statusText);
   }
   return response;
 }

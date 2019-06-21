@@ -8,6 +8,7 @@ class NewsLists {
   }
 
   @observable loading = false;
+  @observable error = false;
 
   @observable items = {
     new: [],
@@ -16,18 +17,25 @@ class NewsLists {
     ask: []
   };
 
-  @action.bound fetchlist(type, forceUpdate = false) {
+  @action.bound getList(type, forceUpdate = false) {
     if (!forceUpdate && this.items[type].length > 0) {
       // Use existing list
       this.loading = false;
+      this.error = false;
       return Promise.resolve(this.items[type]);
     } else {
       // Loading
       this.loading = true;
+      this.error = false;
+      this.fetchList(type);
+    }
+  }
 
-      // Fetch new list
-      return fetchListApi(type).then(({ data }) => {
-        // Set items
+  @action.bound fetchList(type) {
+    // Fetch new list
+    return fetchListApi(type)
+      .then(({ data }) => {
+        // Set limited amount of items
         const limitedItems = data.slice(0, 10);
 
         runInAction(() => {
@@ -37,10 +45,14 @@ class NewsLists {
 
         // Check if items are already loaded in news store
         this.rootStore.newsStore.getItems({ ids: limitedItems });
+      })
+      .catch(error => {
+        runInAction(() => {
+          this.error = String(error);
+          this.loading = false;
+        });
       });
-    }
   }
 }
 
-// const store = new NewsLists();
 export default NewsLists;

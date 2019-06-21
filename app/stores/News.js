@@ -3,7 +3,7 @@ import { fetchItems as fetchItemsFromApi } from "../utils/api";
 
 class News {
   @observable items = {};
-  @observable loading = true;
+  @observable loading = false;
 
   @action.bound getItems({ ids = [], fetchChildren = false } = {}) {
     // Loading. Check which items are missing from the store

@@ -1,6 +1,6 @@
 /*
   Separate CSS files, or styled-components?
-  But for this small projects this little file is working just fine
+  For this small projects this little file is working just fine
 */
 @import url("https://fonts.googleapis.com/css?family=Dosis|Open+Sans&display=swap");
 
@@ -60,6 +60,10 @@ a {
   color: white;
   margin-bottom: 20px;
   text-align: center;
+
+  > div {
+    font-style: italic;
+  }
 }
 
 // nav

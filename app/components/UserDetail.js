@@ -26,7 +26,10 @@ class UserDetail extends React.Component {
     const { userStore, newsStore } = this.props.rootstore;
     const user = userStore.users[username];
 
-    if (userStore.error) return userStore.error;
+    // Username not found
+    if (user && user.error) return "Sorry, no user found with this id";
+
+    // Loading
     if (!user || userStore.loading) return <Loading />;
 
     return (

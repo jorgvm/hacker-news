@@ -49,10 +49,16 @@ export function fetchUser(username) {
     .then(handleErrors)
     .then(res => res.json())
     .then(res => {
-      if (!res || !res.id) {
-        throw new Error("user not found");
+      if (res === null) {
+        return { data: { id: username, error: true } };
+      } else if (!res || !res.id) {
+        return Promise.reject("User not found");
+      } else {
+        return { data: res };
       }
-      return { data: res };
+    })
+    .catch(error => {
+      throw new Error(error);
     });
 }
 

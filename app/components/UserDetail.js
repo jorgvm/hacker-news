@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { inject, observer } from "mobx-react";
+import dompurify from "dompurify";
 //
 import NewsItem from "./NewsItem";
 import Loading from "./Loading";
@@ -34,7 +35,7 @@ class UserDetail extends React.Component {
           <h1>{user.id}</h1>
           <div
             className="content"
-            dangerouslySetInnerHTML={{ __html: user.about }}
+            dangerouslySetInnerHTML={{ __html: dompurify.sanitize(user.about) }}
           />
           <div>Karma: {user.karma || "none"}</div>
         </div>

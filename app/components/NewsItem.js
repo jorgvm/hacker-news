@@ -2,14 +2,18 @@ import React from "react";
 import { Link } from "react-router-dom";
 import moment from "moment";
 import PropTypes from "prop-types";
-import _ from "underscore";
+var he = require("he");
+//
+import { stripHtmlTags } from "../utils/helpers";
 
 function NewsItem(props) {
   const { children, by, id, title, time, url, text, kids, parent } = props;
 
   if (!text && !url) return null;
 
-  const textFormatted = _.unescape(text);
+  const titleLimit = 60;
+  const decoded = he.decode(text);
+  const textSanitized = stripHtmlTags(decoded);
 
   return (
     <div className="news-item">
@@ -17,8 +21,8 @@ function NewsItem(props) {
         {title && <Link to={`/item/${id}`}>{title}</Link>}
         {!title && parent && (
           <Link to={`/item/${parent}`}>
-            (comment) {textFormatted.substring(0, 40)}
-            {textFormatted.length > 20 ? "..." : ""}
+            (comment) {textSanitized.slice(0, titleLimit)}
+            {textSanitized.length > titleLimit ? "..." : ""}
           </Link>
         )}
       </div>

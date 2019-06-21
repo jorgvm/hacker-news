@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { inject, observer } from "mobx-react";
+import dompurify from "dompurify";
 //
 import NewsItem from "./NewsItem";
 import Loading from "./Loading";
@@ -45,7 +46,9 @@ class NewsDetail extends React.Component {
           {props => (
             <div
               className="content"
-              dangerouslySetInnerHTML={{ __html: props.text }}
+              dangerouslySetInnerHTML={{
+                __html: dompurify.sanitize(props.text)
+              }}
             />
           )}
         </NewsItem>

@@ -18,5 +18,5 @@ Git: https://github.com/jorgvm/hacker-news
 
 ## Script
 
-Build: `npm run build`
+Build: `npm run build`  
 Dev: `npm run start`

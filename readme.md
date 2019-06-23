@@ -13,7 +13,7 @@ Jorg
 
 ## Links
 
-Demo on Netlify: https://coppercup-hackernews.netlify.com/
+Demo on Netlify: https://coppercup-hackernews.netlify.com/  
 Git: https://github.com/jorgvm/hacker-news
 
 ## Script

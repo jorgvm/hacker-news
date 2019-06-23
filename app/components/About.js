@@ -16,7 +16,7 @@ function About() {
 
       <p>
         View the demo{" "}
-        <a target="_blank" href="https://priceless-volhard-76e2b7.netlify.com">
+        <a target="_blank" href="https://coppercup-hackernews.netlify.com/">
           here on Netlify
         </a>
         <br />

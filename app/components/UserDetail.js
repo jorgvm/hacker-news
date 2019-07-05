@@ -1,13 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { inject, observer } from "mobx-react";
 import dompurify from "dompurify";
+import { connect } from "react-redux";
 //
 import NewsItem from "./NewsItem";
 import Loading from "./Loading";
+import { getUser } from "../actions/users";
 
-@inject("rootstore")
-@observer
 class UserDetail extends React.Component {
   componentDidMount() {
     this.handleFetchUser();
@@ -15,22 +14,24 @@ class UserDetail extends React.Component {
 
   handleFetchUser = () => {
     const username = this.props.match.params.id;
-    const { userStore } = this.props.rootstore;
+    const { users, dispatch } = this.props;
 
     // Get user from store
-    userStore.getUser(username);
+    dispatch(getUser({ username }));
   };
 
   render() {
+    const { users, news } = this.props;
     const username = this.props.match.params.id;
-    const { userStore, newsStore } = this.props.rootstore;
-    const user = userStore.users[username];
+
+    const user = users?.users?.[username];
 
     // Username not found
-    if (user?.error) return "Sorry, no user found with this id";
+    if (user?.error) return "Sorry, this user does not seem to exist!";
 
     // Loading
-    if (!user || userStore.loading) return <Loading />;
+    if (users.loading || (!users.error && !user)) return <Loading />;
+    if (users.error) return users.error;
 
     return (
       <>
@@ -42,19 +43,25 @@ class UserDetail extends React.Component {
           />
           <div>Karma: {user.karma || "none"}</div>
         </div>
-
-        <div className="user-posts">
-          <h2>Last posts by {user.id}</h2>
-          {newsStore.loading && <Loading />}
-          {user.submitted?.map(id =>
-            !newsStore.items[id] ? null : (
-              <NewsItem key={id} {...newsStore.items[id]} />
-            )
-          )}
-        </div>
+        {news?.items && (
+          <div className="user-posts">
+            <h2>Last posts by {user.id}</h2>
+            {news.loading && <Loading />}
+            {user.submitted &&
+              user.submitted.map(id =>
+                !news.items[id] ? null : (
+                  <NewsItem key={id} {...news.items[id]} />
+                )
+              )}
+          </div>
+        )}
       </>
     );
   }
 }
 
-export default UserDetail;
+function mapStateToProps({ users, news }) {
+  return { users, news };
+}
+
+export default connect(mapStateToProps)(UserDetail);

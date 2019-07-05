@@ -21,17 +21,24 @@ export function getItems({ list, fetchChildren = false } = {}) {
 }
 
 export function fetchItems({ fetchChildren, list, dispatch }) {
-  fetchItemsFromApi(list).then(data => {
-    dispatch({
-      type: "SET_NEWS",
-      news: data
-    });
-
-    if (fetchChildren) {
-      Object.values(data).forEach(item => {
-        // If item has kids, fetch them
-        item.kids && dispatch(getItems({ list: item.kids.slice(0, 20) }));
+  fetchItemsFromApi(list)
+    .then(data => {
+      dispatch({
+        type: "NEWS_SET",
+        news: data
       });
-    }
-  });
+
+      if (fetchChildren) {
+        Object.values(data).forEach(item => {
+          // If item has kids, fetch them
+          item.kids && dispatch(getItems({ list: item.kids.slice(0, 20) }));
+        });
+      }
+    })
+    .catch(error => {
+      dispatch({
+        type: "NEWS_ERROR",
+        error: "There seems to be a problem loading a news item"
+      });
+    });
 }

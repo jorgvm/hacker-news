@@ -18,16 +18,23 @@ export function getUser({ username }) {
 }
 
 export function fetchUser({ username, dispatch }) {
-  fetchUserApi(username).then(({ data }) => {
-    dispatch({
-      type: "SET_USER",
-      user: data
-    });
+  fetchUserApi(username)
+    .then(({ data }) => {
+      dispatch({
+        type: "USER_SET",
+        user: data
+      });
 
-    // If the user has posts, load them
-    const limitedComments = data.submitted && data.submitted.slice(0, 10);
-    if (limitedComments) {
-      dispatch(getItems({ list: limitedComments }));
-    }
-  });
+      // If the user has posts, load them
+      const limitedComments = data.submitted && data.submitted.slice(0, 10);
+      if (limitedComments) {
+        dispatch(getItems({ list: limitedComments }));
+      }
+    })
+    .catch(error => {
+      dispatch({
+        type: "USER_ERROR",
+        error: "Sorry, there seems to be a problem with a server"
+      });
+    });
 }

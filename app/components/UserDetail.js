@@ -27,10 +27,11 @@ class UserDetail extends React.Component {
     const user = users?.users?.[username];
 
     // Username not found
-    if (user?.error) return "Sorry, no user found with this id";
+    if (user?.error) return "Sorry, this user does not seem to exist!";
 
     // Loading
-    if (!user || users.loading) return <Loading />;
+    if (users.loading || (!users.error && !user)) return <Loading />;
+    if (users.error) return users.error;
 
     return (
       <>

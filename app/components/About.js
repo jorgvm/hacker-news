@@ -33,7 +33,7 @@ function About() {
       </p>
 
       <p>
-        Or check out the repository
+        Or check out the repository:
         <br />
         <a target="_blank" href="https://github.com/jorgvm/hacker-news">
           on Github (Redux)

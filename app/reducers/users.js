@@ -7,10 +7,10 @@ export default function users(state = { users: {} }, action) {
       return {
         ...state,
         error: null,
-        loading: typeof action.status !== "undefined" ? !!action.status : true
+        loading: true
       };
 
-    case "SET_USER":
+    case "USER_SET":
       return {
         ...state,
         error: null,
@@ -19,6 +19,13 @@ export default function users(state = { users: {} }, action) {
           ...state.users,
           [action.user.id]: action.user
         }
+      };
+
+    case "USER_ERROR":
+      return {
+        ...state,
+        error: action.error,
+        loading: false
       };
   }
 }

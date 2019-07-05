@@ -7,10 +7,10 @@ export default function newsList(state = { items: {} }, action) {
       return {
         ...state,
         error: null,
-        loading: typeof action.status !== "undefined" ? !!action.status : true
+        loading: true
       };
 
-    case "SET_LIST":
+    case "NEWS_LIST_SET":
       const { list, listType } = action;
 
       return {
@@ -21,6 +21,13 @@ export default function newsList(state = { items: {} }, action) {
           ...state.items,
           [listType]: list
         }
+      };
+
+    case "NEWS_LIST_ERROR":
+      return {
+        ...state,
+        error: action.error,
+        loading: false
       };
   }
 }

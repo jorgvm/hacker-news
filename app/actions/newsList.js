@@ -17,16 +17,23 @@ export function getList({ listType, forceUpdate = false } = {}) {
 }
 
 export function fetchList({ listType, dispatch }) {
-  return fetchListApi(listType).then(({ data }) => {
-    const list = data.slice(0, 10);
+  return fetchListApi(listType)
+    .then(({ data }) => {
+      const list = data.slice(0, 10);
 
-    dispatch({
-      type: "SET_LIST",
-      listType,
-      list
+      dispatch({
+        type: "NEWS_LIST_SET",
+        listType,
+        list
+      });
+
+      // Get all items from the list
+      dispatch(getItems({ list }));
+    })
+    .catch(error => {
+      dispatch({
+        type: "NEWS_LIST_ERROR",
+        error: "There seems to be a problem with a server"
+      });
     });
-
-    // Get all items from the list
-    dispatch(getItems({ list }));
-  });
 }

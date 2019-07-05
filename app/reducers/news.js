@@ -7,10 +7,10 @@ export default function news(state = { items: {} }, action) {
       return {
         ...state,
         error: null,
-        loading: typeof action.status !== "undefined" ? !!action.status : true
+        loading: true
       };
 
-    case "SET_NEWS":
+    case "NEWS_SET":
       // convert  to indexed object
       const indexed = action.news.reduce(
         (total, item) => (item.deleted ? total : { ...total, [item.id]: item }),
@@ -25,6 +25,13 @@ export default function news(state = { items: {} }, action) {
           ...state.items,
           ...indexed
         }
+      };
+
+    case "NEWS_ERROR":
+      return {
+        ...state,
+        error: action.error,
+        loading: false
       };
   }
 }

@@ -23,7 +23,7 @@ function NewsItem(props) {
 
   // Error
   if (error) {
-    return "Sorry, item not found";
+    return "Sorry, this item does not seem to exist!";
   }
 
   // Require either a text or a title

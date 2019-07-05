@@ -33,7 +33,8 @@ class NewsDetail extends React.Component {
     const itemId = this.props.match.params.id;
     const newsItem = news.items?.[itemId];
 
-    if (!newsItem || news.loading) return <Loading />;
+    if (news.loading || (!news.error && !newsItem)) return <Loading />;
+    if (news.error) return news.error || "No news item";
 
     return (
       <div className="item-detail">

@@ -1,22 +1,27 @@
 # Hacker News Feed
 
-I built this app just to have some fun with React! Using:
+I built this app just to have some fun with React!
 
-- React, MobX
-- Decorators proposal
+Using:
+
+- React
+- Redux (in master branch)
+- MobX (in separate branch), with Decorators proposal
 - Class properties proposal
 - Optional chaining proposal
 - and the Hacker News API
 
-Cheers,
 Jorg
 
 ## Links
 
-Demo on Netlify: https://coppercup-hackernews.netlify.com/  
-Git: https://github.com/jorgvm/hacker-news
+[Demo on Netlify](https://coppercup-hackernews.netlify.com/)
 
-## Script
+[Git (Redux)](https://github.com/jorgvm/hacker-news)
 
-Build: `npm run build`  
-Dev: `npm run start`
+[Git (branch with MobX)](https://github.com/jorgvm/hacker-news/tree/mobx)
+
+## Scripts
+
+Dev: `yarn start`  
+Build: `yarn build`

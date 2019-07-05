@@ -1,4 +1,4 @@
-export default function users(state = {}, action) {
+export default function users(state = { users: {} }, action) {
   switch (action.type) {
     default:
       return state;
@@ -7,7 +7,7 @@ export default function users(state = {}, action) {
       return {
         ...state,
         error: null,
-        loading: true
+        loading: typeof action.status !== "undefined" ? !!action.status : true
       };
 
     case "SET_USER":

@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 //
 import NewsItem from "./NewsItem";
 import Loading from "./Loading";
-import { requestList } from "../actions/newsList";
+import { getList } from "../actions/newsList";
 
 class List extends React.Component {
   componentDidMount() {
@@ -20,7 +20,7 @@ class List extends React.Component {
   handleFetchList = forceUpdate => {
     const { dispatch, type } = this.props;
 
-    dispatch(requestList(type));
+    dispatch(getList(type));
   };
 
   render() {

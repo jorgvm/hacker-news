@@ -7,7 +7,7 @@ export default function news(state = { items: {} }, action) {
       return {
         ...state,
         error: null,
-        loading: action.loading || true
+        loading: typeof action.status !== "undefined" ? !!action.status : true
       };
 
     case "SET_NEWS":

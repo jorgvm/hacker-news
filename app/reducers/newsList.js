@@ -1,4 +1,4 @@
-export default function newsList(state = {}, action) {
+export default function newsList(state = { items: {} }, action) {
   switch (action.type) {
     default:
       return state;
@@ -7,10 +7,10 @@ export default function newsList(state = {}, action) {
       return {
         ...state,
         error: null,
-        loading: true
+        loading: typeof action.status !== "undefined" ? !!action.status : true
       };
 
-    case "RECEIVE_LIST":
+    case "SET_LIST":
       const { list, listType } = action;
 
       return {

@@ -2,21 +2,32 @@ import { fetchUser as fetchUserApi } from "../utils/api";
 import { getItems } from "./news";
 
 export function getUser(username) {
-  return dispatch => {
-    dispatch({
-      type: "USER_LOADING"
-    });
+  return (dispatch, getState) => {
+    const existingUsers = getState().users.users;
 
-    return fetchUserApi(username).then(({ data }) => {
+    if (!Object.keys(existingUsers).includes(username)) {
+      // User does not exist yet
       dispatch({
-        type: "SET_USER",
-        user: data
+        type: "USER_LOADING"
       });
 
-      const limitedComments = data.submitted?.slice(0, 10);
-      if (limitedComments) {
-        dispatch(getItems(limitedComments));
-      }
-    });
+      // Query API
+      fetchUser({ username, dispatch });
+    }
   };
+}
+
+export function fetchUser({ username, dispatch }) {
+  fetchUserApi(username).then(({ data }) => {
+    dispatch({
+      type: "SET_USER",
+      user: data
+    });
+
+    // If the user has posts, load them
+    const limitedComments = data.submitted && data.submitted.slice(0, 10);
+    if (limitedComments) {
+      dispatch(getItems({ list: limitedComments }));
+    }
+  });
 }

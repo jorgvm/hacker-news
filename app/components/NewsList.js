@@ -17,10 +17,10 @@ class List extends React.Component {
     }
   }
 
-  handleFetchList = forceUpdate => {
+  handleFetchList = (forceUpdate = false) => {
     const { dispatch, type } = this.props;
 
-    dispatch(getList(type));
+    dispatch(getList({ listType: type, forceUpdate }));
   };
 
   render() {

@@ -1,7 +1,7 @@
 import { getItems } from "./news";
 import { fetchList as fetchListApi } from "../utils/api";
 
-export function getList(listType, forceUpdate = false) {
+export function getList({ listType, forceUpdate = false } = {}) {
   return (dispatch, getState) => {
     const existingList = getState().newsList.items?.[listType];
 

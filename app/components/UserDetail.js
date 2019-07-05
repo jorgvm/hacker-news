@@ -17,7 +17,7 @@ class UserDetail extends React.Component {
     const { users, dispatch } = this.props;
 
     // Get user from store
-    dispatch(getUser(username));
+    dispatch(getUser({ username }));
   };
 
   render() {

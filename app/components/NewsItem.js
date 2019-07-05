@@ -28,7 +28,7 @@ function NewsItem(props) {
 
   // Require either a text or a title
   if (!text && !title) {
-    return <div className="news-item"></div>;
+    return <div className="news-item" />;
   }
 
   // Title contains hex, decode
@@ -58,15 +58,17 @@ function NewsItem(props) {
       )}
 
       <div className="meta">
-        by <Link to={`/user/${by}`}>{by}</Link>, {moment(time * 1000).fromNow()}
+        by{" "}
+        <Link className="username" to={`/user/${by}`}>
+          {by}
+        </Link>
+        , {moment(time * 1000).fromNow()}
         <div>
           with{" "}
-          {
-            <Link to={`/item/${id}`}>
-              {kids ? kids.length : 0}{" "}
-              {kids?.length === 1 ? "comment" : "comments"}
-            </Link>
-          }
+          <Link className="comments" to={`/item/${id}`}>
+            {kids ? kids.length : 0}{" "}
+            {kids?.length === 1 ? "comment" : "comments"}
+          </Link>
         </div>
       </div>
 

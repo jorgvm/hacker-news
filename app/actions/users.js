@@ -1,7 +1,7 @@
 import { fetchUser as fetchUserApi } from "../utils/api";
 import { getItems } from "./news";
 
-export function getUser(username) {
+export function getUser({ username }) {
   return (dispatch, getState) => {
     const existingUsers = getState().users.users;
 

@@ -10,7 +10,11 @@ function Comment({ by, deleted, text, id, time }) {
   return (
     <div className="comment">
       <div className="meta">
-        by <Link to={`/user/${by}`}>{by}</Link>, {moment(time * 1000).fromNow()}
+        by{" "}
+        <Link className="username" to={`/user/${by}`}>
+          {by}
+        </Link>
+        , {moment(time * 1000).fromNow()}
       </div>
       <div
         className="text"

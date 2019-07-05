@@ -1,14 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { inject, observer } from "mobx-react";
+import { connect } from "react-redux";
 import dompurify from "dompurify";
 //
 import NewsItem from "./NewsItem";
 import Loading from "./Loading";
 import Comment from "./Comment";
+import { getItems } from "../actions/news";
 
-@inject("rootstore")
-@observer
 class NewsDetail extends React.Component {
   state = {};
 
@@ -23,22 +22,18 @@ class NewsDetail extends React.Component {
   }
 
   handleFetchItems = () => {
-    const { newsStore } = this.props.rootstore;
+    const { news, dispatch } = this.props;
     const itemId = this.props.match.params.id;
 
-    // Get item from store
-    newsStore.getItems({
-      ids: [itemId],
-      fetchChildren: true
-    });
+    dispatch(getItems({ list: [itemId], fetchChildren: true }));
   };
 
   render() {
-    const { newsStore } = this.props.rootstore;
+    const { news } = this.props;
     const itemId = this.props.match.params.id;
-    const newsItem = newsStore.items[itemId];
+    const newsItem = news.items?.[itemId];
 
-    if (!newsItem || newsStore.loading) return <Loading />;
+    if (!newsItem || news.loading) return <Loading />;
 
     return (
       <div className="item-detail">
@@ -56,8 +51,8 @@ class NewsDetail extends React.Component {
         {
           <div className="comments">
             {newsItem.kids?.map(commentId => {
-              return newsStore.items[commentId] ? (
-                <Comment key={commentId} {...newsStore.items[commentId]} />
+              return news.items[commentId] ? (
+                <Comment key={commentId} {...news.items[commentId]} />
               ) : null;
             })}
           </div>
@@ -67,4 +62,8 @@ class NewsDetail extends React.Component {
   }
 }
 
-export default NewsDetail;
+function mapStateToProps({ users, news }) {
+  return { users, news };
+}
+
+export default connect(mapStateToProps)(NewsDetail);

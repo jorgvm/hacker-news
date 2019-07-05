@@ -1,21 +1,25 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { Switch, BrowserRouter, Route } from "react-router-dom";
-import { Provider } from "mobx-react";
+import { Provider } from "react-redux";
+import { createStore } from "redux";
 //
+import reducer from "./reducers";
+import middleware from "./middleware";
 import NewsList from "./components/NewsList";
 import NewsDetail from "./components/NewsDetail";
 import UserDetail from "./components/UserDetail";
 import Nav from "./components/Nav";
 import About from "./components/About";
-import RootStore from "./stores/RootStore";
 import "./reset.scss";
 import "./index.scss";
+
+const store = createStore(reducer, middleware);
 
 class App extends React.Component {
   render() {
     return (
-      <Provider rootstore={RootStore}>
+      <Provider store={store}>
         <BrowserRouter>
           <Nav />
 

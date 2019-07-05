@@ -1,12 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { inject, observer } from "mobx-react";
+import { connect } from "react-redux";
 //
 import NewsItem from "./NewsItem";
 import Loading from "./Loading";
+import { requestList } from "../actions/newsList";
 
-@inject("rootstore")
-@observer
 class List extends React.Component {
   componentDidMount() {
     this.handleFetchList();
@@ -19,14 +18,13 @@ class List extends React.Component {
   }
 
   handleFetchList = forceUpdate => {
-    const { newsStore, newsListsStore } = this.props.rootstore;
-    const type = this.props.type;
-    newsListsStore.getList(type, forceUpdate);
+    const { dispatch, type } = this.props;
+
+    dispatch(requestList(type));
   };
 
   render() {
-    const { newsStore, newsListsStore } = this.props.rootstore;
-    const type = this.props.type;
+    const { newsList, news, type } = this.props;
 
     const UpdateButton = ({ text = "update" }) => {
       return (
@@ -34,22 +32,28 @@ class List extends React.Component {
           className="update"
           onClick={this.handleFetchList.bind(null, true)}
         >
-          {newsListsStore.loading ? "loading..." : text}
+          {newsList.loading ? "loading..." : text}
         </button>
       );
     };
 
-    if (newsListsStore.error) return <UpdateButton text={"Error, try again"} />;
-    if (newsStore.loading || newsListsStore.loading) return <Loading />;
+    if (newsList.error) return <UpdateButton text={"Error, try again"} />;
+    if (
+      news.loading ||
+      newsList.loading ||
+      !newsList?.items?.[type] ||
+      !news?.items
+    )
+      return <Loading />;
 
     return (
       <>
         <UpdateButton />
         <ul className="news-list">
-          {newsListsStore.items[type].map(id =>
-            !newsStore.items[id] ? null : (
+          {newsList.items[type].map(id =>
+            !news.items[id] ? null : (
               <li key={id}>
-                <NewsItem {...newsStore.items[id]} error={null} />
+                <NewsItem {...news.items[id]} error={null} />
               </li>
             )
           )}
@@ -59,4 +63,8 @@ class List extends React.Component {
   }
 }
 
-export default List;
+function mapStateToProps({ newsList, news }) {
+  return { newsList, news };
+}
+
+export default connect(mapStateToProps)(List);
